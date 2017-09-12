@@ -1,9 +1,9 @@
 ---
 post_title: Service Endpoints
-menu_order:
+menu_order: 3.32
 ---
 
-Containerized services can be placed anywhere in the cluster. Many certified DC/OS services provide endpoints to allow clients to find them. The services offer endpoints: Cassandra, Confluent Kafka, DSE, Elastic, and HDFS.
+Containerized services can be placed anywhere in the cluster. Many certified DC/OS services provide endpoints to allow clients to find them. The following services offer endpoints: Cassandra, Confluent Kafka, DSE, Elastic, and HDFS.
 
 <a name="discovering-endpoints"></a>
 ## Discovering endpoints
@@ -28,4 +28,4 @@ In general, the `.autoip.dcos.thisdcos.directory` endpoints will only work from 
 
 ## Connecting clients to endpoints
 
-Refer to [the documentation](https://docs.mesosphere.com/service-docs/) for the DC/OS service you are running.
+Refer to [the "Connecting Clients" documentation](https://docs.mesosphere.com/service-docs/) for the DC/OS service you are running.
