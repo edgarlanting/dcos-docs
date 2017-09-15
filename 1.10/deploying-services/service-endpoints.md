@@ -3,20 +3,22 @@ post_title: Service Endpoints
 menu_order: 3.32
 ---
 
-Containerized services can be placed anywhere in the cluster. Many certified DC/OS services provide endpoints to allow clients to find them. The following services offer endpoints: Cassandra, Confluent Kafka, DSE, Elastic, and HDFS.
+Containerized services can be placed anywhere in the cluster. Many DC/OS services provide endpoints to allow clients to find them.
 
-<a name="discovering-endpoints"></a>
-## Discovering endpoints
+# Discovering endpoints
+You can find a service's endpoints, if available, from the DC/OS GUI. Click **Services**, then the name of your service. Click the **Endpoints** tab.
 
-Once the service is running, you may view information about its endpoints via either of the following methods:
+## Discovering endpoints for certified DC/OS Services
+The following services also offer CLI commands and an API to discover endpoints: Cassandra, Confluent Kafka, DSE, Elastic, and HDFS.
+
 - CLI:
   - List endpoint types: `dcos <package-name> endpoints`
   - View endpoints for an endpoint type: `dcos <package-name> endpoints <endpoint>`
 - API:
   - List endpoint types: `<dcos-url>/service/<service-name>/v1/endpoints`
   - View endpoints for an endpoint type: `<dcos-url>/service/<service-name>/v1/endpoints/<endpoint>`
-- DC/OS GUI
-  Click **Services**, then the name of your service. Click the **Endpoints** tab.
+
+# Returned endpoints
 
 Returned endpoints will include the following:
 - `.autoip.dcos.thisdcos.directory` hostnames for each instance that will follow them if they're moved within the DC/OS cluster.
@@ -28,4 +30,4 @@ In general, the `.autoip.dcos.thisdcos.directory` endpoints will only work from 
 
 ## Connecting clients to endpoints
 
-Refer to [the "Connecting Clients" documentation](https://docs.mesosphere.com/service-docs/) for the DC/OS service you are running.
+Refer to [the "Connecting Clients" documentation](https://docs.mesosphere.com/service-docs/), if available, for the DC/OS service you are running.
