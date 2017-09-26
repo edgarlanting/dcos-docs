@@ -131,11 +131,11 @@ If you scale your app down to 0 instances, the volume is detached from the agent
 *   For troubleshooting external volumes, consult the agent or system logs. If you are using REX-Ray on DC/OS, you can also consult the systemd journal.
 
 
-[4]: https://rexray.readthedocs.io/en/v0.3.3/user-guide/config/
-[5]: http://rexray.readthedocs.io/en/v0.3.3/user-guide/storage-providers/
+[4]: https://rexray.readthedocs.io/en/v0.9.0/user-guide/config/
+[5]: http://rexray.readthedocs.io/en/v0.9.0/user-guide/storage-providers/
 [6]: /docs/1.10/deploying-services/creating-services/
-[7]: https://rexray.readthedocs.io/en/v0.3.3/user-guide/config/#data-directories
+[7]: https://rexray.readthedocs.io/en/v0.9.0/user-guide/config/#data-directories
 [8]: #implicit-vol
-[9]: https://rexray.readthedocs.io/en/v0.3.3/user-guide/schedulers/
+[9]: https://rexray.readthedocs.io/en/v0.9.0/user-guide/schedulers/
 [10]: https://github.com/emccode/dvdcli#extra-options
-[11]: https://rexray.readthedocs.io/en/v0.3.3/user-guide/schedulers/#docker-containerizer-with-marathon
+[11]: https://rexray.readthedocs.io/en/v0.9.0/user-guide/schedulers/#docker-containerizer-with-marathon
