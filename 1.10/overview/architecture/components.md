@@ -617,9 +617,6 @@ DC/OS provides multiple different ways to provision and allocate disk space and 
 </div>
 
 
-<!-- # Legacy Component Changes -->
-
-
 # Sockets and Timers
 
 Several components are configured to use [systemd sockets](https://www.freedesktop.org/software/systemd/man/systemd.socket.html) which allows them to be started on-demand when a request comes in, rather than running continuously and consuming resources unnecessarily. While these sockets are separate [systemd units](https://www.freedesktop.org/software/systemd/man/systemd.unit.html) they are not considered separate components.
@@ -728,3 +725,9 @@ dcos-spartan.service
 dcos-spartan-watchdog.service
 dcos-spartan-watchdog.timer
 ```
+
+
+# Changes Since DC/OS 1.9
+
+- [Admin Router](#admin-router) now performs dynamic DNS resolution. So the external `dcos-adminrouter-reload` service and timer were removed.
+- [DC/OS Component Package Manager (Pkgpanda)](#dcos-component-package-manager) still uses a socket, but the socket file is now managed by [gunicorn](http://gunicorn.org/) instead of systemd to avoid a race condition during DC/OS upgrades.
