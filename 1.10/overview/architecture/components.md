@@ -6,7 +6,7 @@ menu_order: 4
 
 DC/OS is composed of many open source microservice components meticulously tuned and configured to work together.
 
-![DC/OS Components](/docs/1.10/img/dcos-components-1.9.png)
+![DC/OS Components](/docs/1.10/img/dcos-components-1.10-portrait.png)
 
 From the top, DC/OS is a batteries-included container platform that handles container orchestration, package management, and security.
 
@@ -387,11 +387,7 @@ In a world where machines are are given numbers instead of names, tasks are sche
   <strong>System Service(s):</strong>
   <ul>
     <li><code class="nowrap">dcos-adminrouter.service</code></li>
-    <li><code class="nowrap">dcos-adminrouter-reload.service</code></li>
-    <li><code class="nowrap">dcos-adminrouter-reload.timer</code></li>
     <li><code class="nowrap">dcos-adminrouter-agent.service</code></li>
-    <li><code class="nowrap">dcos-adminrouter-agent-reload.service</code></li>
-    <li><code class="nowrap">dcos-adminrouter-agent-reload.timer</code></li>
   </ul>
 </p>
 <p>
@@ -558,7 +554,6 @@ Just as machine operating systems need package management to install, upgrade, c
   <strong>System Service(s):</strong>
   <ul>
     <li><code class="nowrap">dcos-pkgpanda-api.service</code></li>
-    <li><code class="nowrap">dcos-pkgpanda-api.socket</code></li>
   </ul>
 </p>
 <p>
@@ -648,12 +643,11 @@ To see a list of the systemd components running on any particular node, list the
 ## Master Node
 
 ```
-[vagrant@m1 ~]ls /etc/systemd/system/dcos.target.wants/
-dcos-diagnostics.service
-dcos-adminrouter-reload.service
-dcos-adminrouter-reload.timer
+$ ls /etc/systemd/system/dcos.target.wants/ -1
 dcos-adminrouter.service
 dcos-cosmos.service
+dcos-diagnostics.service
+dcos-diagnostics.socket
 dcos-epmd.service
 dcos-exhibitor.service
 dcos-gen-resolvconf.service
@@ -672,7 +666,6 @@ dcos-metronome.service
 dcos-navstar.service
 dcos-oauth.service
 dcos-pkgpanda-api.service
-dcos-pkgpanda-api.socket
 dcos-signal.service
 dcos-signal.timer
 dcos-spartan.service
@@ -683,12 +676,10 @@ dcos-spartan-watchdog.timer
 ## Private Agent Node
 
 ```
-[vagrant@a1 ~]ls /etc/systemd/system/dcos.target.wants/
+$ ls /etc/systemd/system/dcos.target.wants/ -1
+dcos-adminrouter-agent.service
 dcos-diagnostics.service
 dcos-diagnostics.socket
-dcos-adminrouter-agent-reload.service
-dcos-adminrouter-agent-reload.timer
-dcos-adminrouter-agent.service
 dcos-docker-gc.service
 dcos-docker-gc.timer
 dcos-epmd.service
@@ -703,7 +694,6 @@ dcos-metrics-agent.service
 dcos-metrics-agent.socket
 dcos-navstar.service
 dcos-pkgpanda-api.service
-dcos-pkgpanda-api.socket
 dcos-rexray.service
 dcos-signal.timer
 dcos-spartan.service
@@ -714,12 +704,10 @@ dcos-spartan-watchdog.timer
 ## Public Agent Node
 
 ```
-[vagrant@p1 ~]ls /etc/systemd/system/dcos.target.wants/
+$ ls /etc/systemd/system/dcos.target.wants/ -1
+dcos-adminrouter-agent.service
 dcos-diagnostics.service
 dcos-diagnostics.socket
-dcos-adminrouter-agent-reload.service
-dcos-adminrouter-agent-reload.timer
-dcos-adminrouter-agent.service
 dcos-docker-gc.service
 dcos-docker-gc.timer
 dcos-epmd.service
@@ -734,7 +722,6 @@ dcos-metrics-agent.service
 dcos-metrics-agent.socket
 dcos-navstar.service
 dcos-pkgpanda-api.service
-dcos-pkgpanda-api.socket
 dcos-rexray.service
 dcos-signal.timer
 dcos-spartan.service
