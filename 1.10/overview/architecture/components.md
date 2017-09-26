@@ -649,57 +649,95 @@ To see a list of the systemd components running on any particular node, list the
 
 ```
 [vagrant@m1 ~]ls /etc/systemd/system/dcos.target.wants/
-dcos-diagnostics.service         dcos-mesos-dns.service
-dcos-adminrouter-reload.service  dcos-mesos-master.service
-dcos-adminrouter-reload.timer    dcos-metrics-master.service
-dcos-adminrouter.service         dcos-metrics-master.socket
-dcos-cosmos.service              dcos-metronome.service
-dcos-epmd.service                dcos-navstar.service
-dcos-exhibitor.service           dcos-oauth.service
-dcos-gen-resolvconf.service      dcos-pkgpanda-api.service
-dcos-gen-resolvconf.timer        dcos-pkgpanda-api.socket
-dcos-history.service             dcos-signal.service
-dcos-log-master.service          dcos-signal.timer
-dcos-log-master.socket           dcos-spartan.service
-dcos-logrotate-master.service    dcos-spartan-watchdog.service
-dcos-logrotate-master.timer      dcos-spartan-watchdog.timer
+dcos-diagnostics.service
+dcos-adminrouter-reload.service
+dcos-adminrouter-reload.timer
+dcos-adminrouter.service
+dcos-cosmos.service
+dcos-epmd.service
+dcos-exhibitor.service
+dcos-gen-resolvconf.service
+dcos-gen-resolvconf.timer
+dcos-history.service
+dcos-log-master.service
+dcos-log-master.socket
+dcos-logrotate-master.service
+dcos-logrotate-master.timer
 dcos-marathon.service
+dcos-mesos-dns.service
+dcos-mesos-master.service
+dcos-metrics-master.service
+dcos-metrics-master.socket
+dcos-metronome.service
+dcos-navstar.service
+dcos-oauth.service
+dcos-pkgpanda-api.service
+dcos-pkgpanda-api.socket
+dcos-signal.service
+dcos-signal.timer
+dcos-spartan.service
+dcos-spartan-watchdog.service
+dcos-spartan-watchdog.timer
 ```
 
 ## Private Agent Node
 
 ```
 [vagrant@a1 ~]ls /etc/systemd/system/dcos.target.wants/
-dcos-diagnostics.service               dcos-logrotate-agent.timer
-dcos-diagnostics.socket                dcos-mesos-slave.service
-dcos-adminrouter-agent-reload.service  dcos-metrics-agent.service
-dcos-adminrouter-agent-reload.timer    dcos-metrics-agent.socket
-dcos-adminrouter-agent.service         dcos-navstar.service
-dcos-docker-gc.service                 dcos-pkgpanda-api.service
-dcos-docker-gc.timer                   dcos-pkgpanda-api.socket
-dcos-epmd.service                      dcos-rexray.service
-dcos-gen-resolvconf.service            dcos-signal.timer
-dcos-gen-resolvconf.timer              dcos-spartan.service
-dcos-log-agent.service                 dcos-spartan-watchdog.service
-dcos-log-agent.socket                  dcos-spartan-watchdog.timer
+dcos-diagnostics.service
+dcos-diagnostics.socket
+dcos-adminrouter-agent-reload.service
+dcos-adminrouter-agent-reload.timer
+dcos-adminrouter-agent.service
+dcos-docker-gc.service
+dcos-docker-gc.timer
+dcos-epmd.service
+dcos-gen-resolvconf.service
+dcos-gen-resolvconf.timer
+dcos-log-agent.service
+dcos-log-agent.socket
 dcos-logrotate-agent.service
+dcos-logrotate-agent.timer
+dcos-mesos-slave.service
+dcos-metrics-agent.service
+dcos-metrics-agent.socket
+dcos-navstar.service
+dcos-pkgpanda-api.service
+dcos-pkgpanda-api.socket
+dcos-rexray.service
+dcos-signal.timer
+dcos-spartan.service
+dcos-spartan-watchdog.service
+dcos-spartan-watchdog.timer
 ```
 
 ## Public Agent Node
 
 ```
 [vagrant@p1 ~]ls /etc/systemd/system/dcos.target.wants/
-dcos-diagnostics.service               dcos-logrotate-agent.timer
-dcos-diagnostics.socket                dcos-mesos-slave-public.service
-dcos-adminrouter-agent-reload.service  dcos-metrics-agent.service
-dcos-adminrouter-agent-reload.timer    dcos-metrics-agent.socket
-dcos-adminrouter-agent.service         dcos-navstar.service
-dcos-docker-gc.service                 dcos-pkgpanda-api.service
-dcos-docker-gc.timer                   dcos-pkgpanda-api.socket
-dcos-epmd.service                      dcos-rexray.service
-dcos-gen-resolvconf.service            dcos-signal.timer
-dcos-gen-resolvconf.timer              dcos-spartan.service
-dcos-log-agent.service                 dcos-spartan-watchdog.service
-dcos-log-agent.socket                  dcos-spartan-watchdog.timer
+dcos-diagnostics.service
+dcos-diagnostics.socket
+dcos-adminrouter-agent-reload.service
+dcos-adminrouter-agent-reload.timer
+dcos-adminrouter-agent.service
+dcos-docker-gc.service
+dcos-docker-gc.timer
+dcos-epmd.service
+dcos-gen-resolvconf.service
+dcos-gen-resolvconf.timer
+dcos-log-agent.service
+dcos-log-agent.socket
 dcos-logrotate-agent.service
+dcos-logrotate-agent.timer
+dcos-mesos-slave-public.service
+dcos-metrics-agent.service
+dcos-metrics-agent.socket
+dcos-navstar.service
+dcos-pkgpanda-api.service
+dcos-pkgpanda-api.socket
+dcos-rexray.service
+dcos-signal.timer
+dcos-spartan.service
+dcos-spartan-watchdog.service
+dcos-spartan-watchdog.timer
 ```
