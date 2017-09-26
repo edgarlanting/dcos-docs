@@ -19,7 +19,7 @@ An array of strings that specifies the command to run. The `args` field may be u
 **Important:** You must specify either `cmd` or `args` in all app definitions. It is invalid to supply both `cmd` and `args` in the same app.
 
 ### backoffFactor
-The multiplicand to apply to the `backoffSeconds` value. The default value is `1.15`. The `backoffSeconds` and `backoffFactor` values are multiplied until they reach the `maxLaunchDelaySeconds` value. After they reach that value, Marathon waits `maxLaunchDelaySeconds` before repeating this cycle exponentially. For example, if `backoffSeconds: 3`, `backoffFactor: 2`, and `maxLaunchDelaySeconds: 3600`, there will be ten attempts to launch a failed task, each three seconds apart. After these ten attempts, Marathon will wait 3600 seconds before repeating this cycle.
+The multiplicand to apply to the `backoffSeconds` value. The default value is `1.15`. The `backoffSeconds` and `backoffFactor` values are multiplied until they reach the [`maxLaunchDelaySeconds`](#maxlaunchdelayseconds) value. After they reach that value, Marathon waits `maxLaunchDelaySeconds` before repeating this cycle exponentially. For example, if `backoffSeconds: 3`, `backoffFactor: 2`, and `maxLaunchDelaySeconds: 3600`, there will be ten attempts to launch a failed task, each three seconds apart. After these ten attempts, Marathon will wait 3600 seconds before repeating this cycle.
 
 This prevents sandboxes associated with consecutively failing tasks from filling up the hard disk on Mesos slaves. This applies also to tasks that are killed due to failing too many health checks.
 
@@ -44,7 +44,7 @@ The container information.
 - **portMappings** The port mappings between host and container.  A port mapping is a tuple that contains a host port (`hostPort`), container port (`containerPort`), service port (`servicePort`), and protocol (`protocol`).  Port mappings are similar to passing `-p` into the Docker command line to specify a relationship between a port on the host machine and a port inside the container. 
 
     - **containerPort** The container port (e.g., `8080`).
-    - **hostPort** The host port (e.g., `0`). The default value is `0`. In `USER` mode, the hostPort is not required, but if left unspecified Marathon will not randomly allocate a port.
+    - **hostPort** The host port (e.g., `0`). The default value is `0`. In networks `container` mode, the hostPort is not required, but if left unspecified Marathon will not randomly allocate a port.
     - **servicePort** The service port (e.g., `9000`).
     - **protocol** The HTTP protocol, either `tcp` or `udp`.
 
@@ -53,36 +53,34 @@ The container information.
     - **forcePullImage** Whether to pull the image, regardless if it is already available on the local system.
     - **image** The path to the Docker image.
     - **privileged** Whether to give extended privileges to this container. For more information, see the [Docker run command](https://docs.docker.com/engine/reference/commandline/run/).
-    
       - `"privileged": false` Do not give extended privileges. This is the default value.
       - `"privileged": true` Give extended privileges. 
     - **parameters** Command-line options for the `docker run` command executed by the Mesos containerizer. Parameters passed in this manner are not guaranteed to be supported in the future, as Mesos may not always interact with Docker via the CLI.
-    - **pullConfig** A secret whose value is a stringified JSON object in a Secret Store. 
+    - **pullConfig** A secret whose value is a stringified JSON object in a Secret Store. See [](/docs/1.10/deploying-services/private-docker-registry/#secret-store-instructions)
     
-- **volumes** The persistent volume.  
- 
-    - **containerPath** The path where your application will read and write data. This must be a single-level path relative to the container; it cannot contain a forward slash (`/`). (`"data"`, but not `"/data"`, `"/var/data"` or `"var/data"`). If your application requires an absolute path, or a relative path with slashes, [use this configuration](#abs-paths).
-    - **external** The external volume. For more information, see the [documentation](/docs/1.10/storage/external-storage/).
-        
-        - **name** Name that your volume driver uses to look up your volume.
+- **volumes** The volumes accessible to the container.
+    - **containerPath** The path where your container will read and write data.
+    - **external** An external persistent volume. See [External Persistent Volumes](/docs/1.10/storage/external-storage/).
+        - **name** Name that your volume driver uses to look up the external volume.
         - **provider** The storage provider.
-        - **options** Specifies which Docker volume driver to use for storage. The only Docker volume driver provided with [DC/OS is REX-Ray](/docs/1.10/storage/external-storage/). 
+        - **options** Which Docker volume driver to use for storage. The only Docker volume driver supported by DC/OS is [REX-Ray](/docs/1.10/storage/external-storage/). 
         - **size** The size (in GiB) of the external volume. 
-        
     - **hostPath** The host path.
     - **mode** The access mode of the volume, either read-write (`RW`) or read-only (`RO`). 
-    - **persistent** The local persistent volume. For more information, see the [documentation](/docs/1.10/storage/persistent-volume/).
-        
-        - **size** The size (in MiBs) of the persistent volume. 
+    - **persistent** A local persistent volume. See [Local Persistent Volumes](/1.10/storage/persistent-volume/).
+        - **size** The size (in MiBs) of the local persistent volume. 
     
 ### cpus
-The number of required CPUs per instance. This number does not have to be integer, but can be a fraction.    
+The number of required CPUs per instance. This number does not have to be integer, but can be a fraction.
 
 ### dependencies
 A list of dependent services for an application. The order is derived from the dependencies to start, stop, and upgrade of the application. For example, if application `/a` relies on the services `/b` which relies on `/c`. To start all 3 applications, first `/c` is started, then `/b` and `/a`.
 
+### disk
+The amount of disk space in MB needed for this application. This number does not have to be an integer, but can be a fraction.
+
 ### env
-Specifies environment variables.
+Environment variables.
 
 ### executor
 The executor used to launch the application. The default is `//cmd`, which takes the `cmd` and executes that on the shell level.
@@ -94,6 +92,9 @@ The list of URIs to fetch. For more information, see the [Mesos Fetcher document
 - **executable** Set fetched artifact as executable.
 - **extract** Extract fetched artifact if supported by Mesos fetcher module.
 - **cache** Cache fetched artifact, if supported by Mesos fetcher module.
+
+### gpus
+The number of GPU cores needed for the application per instance.
 
 ### healthChecks
 An array of checks that are run against an application’s tasks. Marathon health checks perform periodic checks on the containers distributed across a cluster to make sure they’re up and responding. For more information, see the [Health Checks documentation](/docs/1.10/deploying-services/creating-services/health-checks/).
@@ -119,10 +120,10 @@ The allowable format is represented by the following regular expression:
 The number of instances. You can change this number as needed to scale the application.
 
 ### labels
-Attach metadata to apps  to expose additional information to other services. For example, you could label apps `"environment": "staging"` to mark services by their position in the pipeline.
+Metadata to expose additional information to other services. For example, you could label apps `"environment": "staging"` to mark services by their position in the pipeline.
 
 ### maxLaunchDelaySeconds
-The maximum amount of time (in seconds) to wait, after applying the `backoffSeconds` and `backoffFactor` values, before attempting to restart failed tasks. The `backoffSeconds` and `backoffFactor` values are multiplied until they reach the `maxLaunchDelaySeconds` value. After they reach that value, Marathon waits `maxLaunchDelaySeconds` before repeating this cycle exponentially. For example, if `backoffSeconds: 3`, `backoffFactor: 2`, and `maxLaunchDelaySeconds: 3600`, there will be ten attempts to launch a failed task, each three seconds apart. After these ten attempts, Marathon will wait 3600 seconds before repeating this cycle.
+The maximum amount of time (in seconds) to wait, after applying the [`backoffSeconds`](#backoffseconds) and [`backoffFactor`](backofffactor) values, before attempting to restart failed tasks. The `backoffSeconds` and `backoffFactor` values are multiplied until they reach the `maxLaunchDelaySeconds` value. After they reach that value, Marathon waits `maxLaunchDelaySeconds` before repeating this cycle exponentially. For example, if `backoffSeconds: 3`, `backoffFactor: 2`, and `maxLaunchDelaySeconds: 3600`, there will be ten attempts to launch a failed task, each three seconds apart. After these ten attempts, Marathon will wait 3600 seconds before repeating this cycle.
 
 This prevents sandboxes associated with consecutively failing tasks from filling up the hard disk on Mesos slaves. This applies also to tasks that are killed due to failing too many health checks.
 
@@ -130,7 +131,14 @@ This prevents sandboxes associated with consecutively failing tasks from filling
 The amount of memory (MB) required per instance.
 
 ### networks
-Specify networking modes. Three modes of networking are supported: `host`, `container`, `container/bridge`.
+One or more network definitions. An application can join join multiple networks only when using the [Mesos containerizer runtime (`MESOS`)](#container). Although Docker supports multiple networks per container, the Docker containerizer implementation within Mesos does not support multiple networks. 
+
+A network definition consists of:
+
+- **mode** Networking mode. Three modes of networking are supported: `host`, `container`, `container/bridge`. An application cannot mix networking modes: you must specify a single `host` network, a single `container/bridge` network, or one or more `container` networks.
+- **name** Name of the network. Required when mode is `container`.
+- **labels** See [labels](#labels).
+
 
 ### portDefinitions
 An array of required port resources on the host. The portDefinitions array serves multiple roles:
@@ -142,8 +150,8 @@ Each port value is exposed to the instance via environment variables `$PORT0`, `
 
 **Recommendations:**
 
-- Configure ports assignment for Docker containers for `BRIDGE` and `USER` networking in `container.docker.portMappings`.
-- If you use the Mesos Containerizer, pass zeros as port values to generate one or more arbitrary free ports for each application instance.
+- Configure ports assignment for Docker containers in `container.portMappings`.
+- If you use the [Universal Container Runtime](/docs/1.10/deploying-services/containerizers/ucr), pass zeros as port values to generate one or more arbitrary free ports for each application instance.
 
 For more information, see the [Containerizers](/docs/1.10/deploying-services/containerizers/) and [Service Ports](/docs/1.10/deploying-services/service-ports/) documentation.
 
@@ -154,7 +162,7 @@ Whether the host ports of your tasks are automatically assigned.
 - `"requirePorts": true` Manually specify ports in advance. Marathon will only schedule the associated tasks on hosts that have the specified ports available. 
 
 ### residency
-Set up a stateful application. For more information, see the [local persistent volumes documentation](/docs/1.10/storage/persistent-volume/).
+Set up a stateful application. For more information, see [local persistent volumes](/docs/1.10/storage/persistent-volume/).
 
 - **taskLostBehavior** Indicates whether Marathon will launch the task on another node after receiving a `TASK_LOST` status update.
 
@@ -165,7 +173,7 @@ Set up a stateful application. For more information, see the [local persistent v
 The amount of time (in seconds) between the executor sending SIGTERM to a task and then sending SIGKILL. 
 
 ### upgradeStrategy
-Specifies how Marathon stops old versions and launches new versions. During an upgrade all instances of an application get replaced by a new version. 
+How Marathon stops old versions and launches new versions. During an upgrade all instances of an application get replaced by a new version. 
 
 - **minimumHealthCapacity** The minimum percentage (expressed as a decimal fraction between `0.0` and `1.0`) of nodes which remain healthy during an upgrade. During an upgrade, Marathon ensures that this number of healthy instances are up. The default is `1.0`, which means no old instance can be stopped before another healthy new version is deployed. A value of `0.5` means that during an upgrade half of the old version instances are stopped first to make space for the new version. A value of `0` means take all instances down immediately and replace with the new application.
 - **maximumOverCapacity** The maximum percentage (expressed as a decimal fraction between `0.0` and `1.0`) of new instances that can be launched at any point during an upgrade. The default value is `1`, which means that all old and new instances can exist during the upgrade process. A value of `0.1` means that during the upgrade process 10% more capacity than usual may be used for old and new instances. A value of `0.0` means that even during the upgrade process no more capacity may be used for the new instances than usual. Only when an old version is stopped, a new instance can be deployed.
