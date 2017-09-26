@@ -466,12 +466,7 @@ In a world where machines are are given numbers instead of names, tasks are sche
 <div>
 <p><strong>Description:</strong> Minuteman provides distributed <a href="https://en.wikipedia.org/wiki/Transport_layer">Layer 4</a> virtual IP load balancing.</p>
 <p><strong>Note:</strong> Minuteman and Navstar run on a shared Erlang Virtual Machine which is supervised by systemd. So only Navstar appears in the systemd service list and component UI.</p>
-<p>
-  <strong>System Service(s):</strong>
-  <ul>
-    <li>N/A - Included in <a href="#navstar">Navstar</a></li>
-  </ul>
-</p>
+<p><strong>System Service(s):</strong> N/A - Included in <a href="#navstar">Navstar</a>.</p>
 <p>
   <strong>See Also:</strong>
   <ul>
