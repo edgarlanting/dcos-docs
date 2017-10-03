@@ -724,5 +724,5 @@ dcos-spartan-watchdog.timer
 
 # Changes Since DC/OS 1.9
 
-- [Admin Router](#admin-router) now performs dynamic DNS resolution. So the external `dcos-adminrouter-reload` service and timer were removed.
-- [DC/OS Component Package Manager (Pkgpanda)](#dcos-component-package-manager) still uses a socket, but the socket file is now managed by [gunicorn](http://gunicorn.org/) instead of systemd to avoid a race condition during DC/OS upgrades.
+- [Admin Router](#admin-router) - Admin Router now performs dynamic DNS resolution. The external `dcos-adminrouter-reload` service and timer were removed.
+- [DC/OS Component Package Manager](#dcos-component-package-manager) - To avoid a race condition during DC/OS upgrades, the DC/OS Component Package Manager socket file is now managed by [gunicorn](http://gunicorn.org/) instead of systemd.
