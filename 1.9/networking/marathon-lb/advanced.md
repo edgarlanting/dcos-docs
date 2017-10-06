@@ -120,6 +120,13 @@ If you do not specify an SSL certificate, Marathon-LB will generate a self-signe
       "HAPROXY_0_SSL_CERT":"/etc/ssl/certs/nginx.mesosphere.com"
     }
 
+    "labels":{
+      "HAPROXY_GROUP": "external",
+      "HAPROXY_0_MODE": "http",
+      "HAPROXY_0_STICKY": true,
+      "HAPROXY_0_BACKEND_STICKY_OPTIONS": " cookie JSESSIONID prefix nocache "
+    }
+
 The SSL certificates must be pre-loaded into the container for Marathon-LB to load them. You can do this by building your own image of Marathon-LB, rather than using the Mesosphere-provided image.
 
 ## Using HAProxy metrics
