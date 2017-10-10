@@ -100,14 +100,6 @@ To create a template for an individual app, modify the application definition. I
       }
     }
 
-Other options you may want to specify include enabling the [sticky option][3], [redirecting to HTTPS][4], or [specifying a vhost][5].
-
-    "labels":{
-      "HAPROXY_0_STICKY":true,
-      "HAPROXY_0_REDIRECT_TO_HTTPS":true,
-      "HAPROXY_0_VHOST":"nginx.mesosphere.com"
-    }
-
 
 ## SSL Support
 
